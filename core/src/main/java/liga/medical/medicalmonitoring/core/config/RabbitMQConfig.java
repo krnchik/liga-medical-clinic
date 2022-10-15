@@ -8,16 +8,11 @@ import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
-
-    @Value("${spring.rabbitmq.template.exchange}")
-    private String exchange;
-
     @Bean
     public ConnectionFactory connectionFactory() {
         return new CachingConnectionFactory("localhost");
@@ -32,7 +27,7 @@ public class RabbitMQConfig {
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
         rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
-        rabbitTemplate.setExchange(exchange);
+        rabbitTemplate.setExchange("common_monitoring");
         return rabbitTemplate;
     }
 
@@ -56,7 +51,7 @@ public class RabbitMQConfig {
 
     @Bean
     public DirectExchange directExchange(){
-        return new DirectExchange(exchange);
+        return new DirectExchange("common_monitoring");
     }
 
     @Bean
