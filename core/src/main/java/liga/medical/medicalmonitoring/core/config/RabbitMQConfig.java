@@ -55,17 +55,27 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    @Qualifier("daily")
     public Binding dailyBinding(){
         return BindingBuilder.bind(dailyQueue()).to(directExchange()).with(Status.DAILY.toString());
     }
 
     @Bean
+    @Qualifier("alert")
     public Binding alertBinding(){
         return BindingBuilder.bind(alertQueue()).to(directExchange()).with(Status.ALERT.toString());
     }
 
     @Bean
+    @Qualifier("error")
     public Binding errorBinding(){
         return BindingBuilder.bind(errorQueue()).to(directExchange()).with(Status.ERROR.toString());
+    }
+
+    @Bean
+    public void init() {
+        RabbitTemplate template = rabbitTemplate();
+        template.convertAndSend("common_queue", "null");
+
     }
 }
