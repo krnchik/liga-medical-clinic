@@ -1,7 +1,11 @@
 package liga.medical.medicalmonitoring.core.config;
 
 import liga.medical.medicalmonitoring.core.model.Status;
-import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -50,25 +54,25 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public DirectExchange directExchange(){
+    public DirectExchange directExchange() {
         return new DirectExchange("common_monitoring");
     }
 
     @Bean
     @Qualifier("daily")
-    public Binding dailyBinding(){
+    public Binding dailyBinding() {
         return BindingBuilder.bind(dailyQueue()).to(directExchange()).with(Status.DAILY.toString());
     }
 
     @Bean
     @Qualifier("alert")
-    public Binding alertBinding(){
+    public Binding alertBinding() {
         return BindingBuilder.bind(alertQueue()).to(directExchange()).with(Status.ALERT.toString());
     }
 
     @Bean
     @Qualifier("error")
-    public Binding errorBinding(){
+    public Binding errorBinding() {
         return BindingBuilder.bind(errorQueue()).to(directExchange()).with(Status.ERROR.toString());
     }
 

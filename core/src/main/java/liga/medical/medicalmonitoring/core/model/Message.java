@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @ToString
-@EqualsAndHashCode()
+@EqualsAndHashCode
 public class Message implements Serializable {
     @EqualsAndHashCode.Exclude
     private String id;
