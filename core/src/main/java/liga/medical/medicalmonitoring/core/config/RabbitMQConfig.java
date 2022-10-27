@@ -80,11 +80,4 @@ public class RabbitMQConfig {
     public Binding errorBinding() {
         return BindingBuilder.bind(errorQueue()).to(directExchange()).with(Status.ERROR.toString());
     }
-
-    @Bean
-    public void init() {
-        RabbitTemplate template = rabbitTemplate();
-        template.convertAndSend("common_queue", "null");
-
-    }
 }
